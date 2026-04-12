@@ -56,9 +56,9 @@ const SignIn = () => {
     }
 
   } catch (err) {
-    console.log(err)
-    alert("Error during login")
-  }
+  console.log("LOGIN ERROR:", err)
+  alert(err.message)
+}
 }
 
   return (
