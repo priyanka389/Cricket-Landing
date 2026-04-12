@@ -16,6 +16,12 @@ app.use('/api/auth', require('./routes/authRoutes'))
 app.use('/api/match', require('./routes/matchRoutes'))
 app.use('/api/admin', require('./routes/adminRoutes'))
 app.use("/api/auth", authRoutes)
+app.use((req, res, next) => {
+  res.setHeader("Cross-Origin-Opener-Policy", "same-origin-allow-popups");
+  res.setHeader("Cross-Origin-Embedder-Policy", "unsafe-none");
+  next();
+});
+
 
 app.get('/', (req, res) => {
   res.send("Backend running 🚀")

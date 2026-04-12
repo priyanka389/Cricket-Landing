@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const nodemailer = require("nodemailer");
 const Otp = require('../models/Otp')
+const axios = require("axios");
 
 // ================= SIGNUP (FINAL) =================
 exports.signup = async (req, res) => {
@@ -171,5 +172,41 @@ exports.verifyOTP = async (req, res) => {
       success: false,
       message: "Error verifying OTP"
     });
+  }
+};
+
+
+// OAuth
+
+exports.googleLogin = async (req, res) => {
+  const { access_token } = req.body;
+
+  try {
+    const googleRes = await axios.get(
+      `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${access_token}`
+    );
+
+    const { email, name } = googleRes.data;
+
+    let user = await User.findOne({ email });
+
+    if (!user) {
+      user = await User.create({
+        email,
+        username: name,
+        password: "google_auth",
+      });
+    }
+
+    const token = "dummy_token"; // ya JWT use karo
+
+    res.json({
+      token,
+      role: "user",
+    });
+
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ msg: "Google login error" });
   }
 };

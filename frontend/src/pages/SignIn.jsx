@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { Eye, EyeOff, Mail, Lock } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
+import { useGoogleLogin } from "@react-oauth/google";
+import axios from "axios";
 
 const SignIn = () => {
   const navigate = useNavigate()
@@ -61,6 +63,41 @@ const SignIn = () => {
 }
 }
 
+
+const googleLogin = useGoogleLogin({
+  onSuccess: async (tokenResponse) => {
+    try {
+      const res = await axios.post(
+        "http://localhost:4000/api/auth/google-login",
+        {
+          access_token: tokenResponse.access_token,
+        }
+      );
+
+      const data = res.data;
+
+      if (data.token) {
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("role", data.role);
+
+        alert("Google Login Successful 🎉");
+
+        if (data.role === "user") {
+          navigate("/");
+        } else if (data.role === "admin") {
+          navigate("/admin/dashboard");
+        } else if (data.role === "superadmin") {
+          navigate("/superadmin/dashboard");
+        }
+      }
+    } catch (err) {
+      console.log(err);
+      alert("Google login failed");
+    }
+  },
+  onError: () => alert("Google Login Failed"),
+});
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-blue-100 px-4 relative font-[Poppins]">
 
@@ -94,7 +131,10 @@ const SignIn = () => {
         </div>
 
         {/* Google Login */}
-        <button className="w-full flex items-center justify-center gap-2 py-2.5 mb-4 border border-gray-200 rounded-lg bg-gray-50 hover:border-blue-500 transition-all hover:scale-[1.02]">
+        <button
+  onClick={() => googleLogin()}   // ✅ YE LINE ADD KI HAI
+  className="w-full flex items-center justify-center gap-2 py-2.5 mb-4 border border-gray-200 rounded-lg bg-gray-50 hover:border-blue-500 transition-all hover:scale-[1.02]"
+>
           <img
             src="https://www.svgrepo.com/show/475656/google-color.svg"
             alt="google"
