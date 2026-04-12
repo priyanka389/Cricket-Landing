@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { Crown } from "lucide-react";
 import {
   LayoutDashboard,
   Users,
@@ -45,8 +46,9 @@ const Sidebar = () => {
 
       {/* Logo / Title */}
       <h1 className="text-2xl font-extrabold mb-10 tracking-wide flex items-center gap-2">
-        👑 Super Admin
-      </h1>
+  <Crown className="text-yellow-400" size={26} />
+  Super Admin
+</h1>
 
       {/* Menu */}
       <div className="flex flex-col gap-2">
