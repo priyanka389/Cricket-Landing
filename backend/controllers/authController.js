@@ -1,7 +1,7 @@
 const User = require('../models/User')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-
+const nodemailer = require("nodemailer");
 const Otp = require('../models/Otp')
 
 // ================= SIGNUP (FINAL) =================
@@ -63,6 +63,7 @@ exports.signup = async (req, res) => {
 };
 
 
+
 // ================= LOGIN =================
 exports.login = async (req, res) => {
   const { email, password } = req.body
@@ -87,11 +88,11 @@ exports.login = async (req, res) => {
 
 
 // ================= SEND OTP =================
+// ================= SEND OTP =================
 exports.sendOtp = async (req, res) => {
   try {
     const { email } = req.body;
 
-    // ✅ check if user already exists
     const existingUser = await User.findOne({ email });
 
     if (existingUser) {
@@ -101,21 +102,36 @@ exports.sendOtp = async (req, res) => {
       });
     }
 
-    // generate otp
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
 
-    // save in DB
     await Otp.create({ email, otp });
 
-    console.log("OTP is:", otp);
+    // 🔥 EMAIL SEND START
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.MAIL_USER,
+        pass: process.env.MAIL_PASS,
+      },
+    });
+
+    await transporter.sendMail({
+      from: process.env.MAIL_USER,
+      to: email,
+      subject: "OTP Verification",
+      text: `Your OTP is ${otp}`,
+    });
+    // 🔥 EMAIL SEND END
+
+    console.log("OTP sent to email:", email);
 
     res.json({
       success: true,
-      message: "OTP sent"
+      message: "OTP sent to email"
     });
 
   } catch (err) {
-    console.log(err);
+    console.log("EMAIL ERROR:", err);
     res.json({
       success: false,
       message: "Error sending OTP"
