@@ -18,12 +18,16 @@ const activityRoutes = require("./routes/activityRoutes");
 const squadRoutes = require("./routes/squadRoutes");
 const liveFeatureRoutes = require("./routes/liveFeatureRoutes");
 const reactionRoutes = require("./routes/reactionRoutes");
-const paymentRoutes =
-require("./routes/paymentRoutes");
+const paymentRoutes = require("./routes/paymentRoutes");
+
+const allowedOrigins = [
+  "https://cricket-landing.vercel.app",
+  "https://cricket-landing-7vmqozx4j-priyanka-kumaris-projects-c8f4983a.vercel.app"
+];
 
 const io = new Server(server, {
   cors: {
-    origin: "https://cricket-landing-7vmqozx4j-priyanka-kumaris-projects-c8f4983a.vercel.app",
+    origin: allowedOrigins,
     methods: ["GET", "POST"],
     credentials: true
   }
@@ -32,12 +36,12 @@ const io = new Server(server, {
 const viewers = {};
 
 // middleware
-app.use(cors({
-  origin: "https://cricket-landing-7vmqozx4j-priyanka-kumaris-projects-c8f4983a.vercel.app",
-  credentials: true
-}));
-
-// app.use(express.json());
+app.use(
+  cors({
+    origin: allowedOrigins,
+    credentials: true
+  })
+);
 
 app.use(
   express.json({
@@ -69,10 +73,8 @@ app.use("/api/watchlist", require("./routes/watchlistRoutes"));
 app.use("/api/notifications", require("./routes/notificationRoutes"));
 app.use("/api/live", liveFeatureRoutes);
 app.use("/api/reaction", reactionRoutes);
-app.use(
-"/api/payment",
-paymentRoutes
-);
+app.use("/api/payment", paymentRoutes);
+
 app.use("/uploads", express.static("uploads"));
 
 app.use((req, res, next) => {
@@ -116,91 +118,68 @@ io.on("connection", (socket) => {
   });
 
   socket.on("typing", (data) => {
-  socket.to(data.matchId).emit(
-    "showTyping",
-    data.username
-  );
-});
+    socket.to(data.matchId).emit(
+      "showTyping",
+      data.username
+    );
+  });
 
-  socket.on(
-    "sendReaction",
-    async (data) => {
-      try {
-        const Reaction = require("./models/Reaction");
+  socket.on("sendReaction", async (data) => {
+    try {
+      const Reaction = require("./models/Reaction");
 
-        let react =
-          await Reaction.findOne({
-            matchId:
-              data.matchId
-          });
+      let react = await Reaction.findOne({
+        matchId: data.matchId
+      });
 
-        if (!react) {
-          react =
-            await Reaction.create({
-              matchId:
-                data.matchId
-            });
-        }
-
-        react[data.type] += 1;
-
-        await react.save();
-
-        io.to(
-          data.matchId
-        ).emit(
-          "receiveReaction",{
-            counts: react,
-    type: data.type
-          }
-          
-        );
-      } catch (err) {
-        console.log(err);
+      if (!react) {
+        react = await Reaction.create({
+          matchId: data.matchId
+        });
       }
+
+      react[data.type] += 1;
+
+      await react.save();
+
+      io.to(data.matchId).emit(
+        "receiveReaction",
+        {
+          counts: react,
+          type: data.type
+        }
+      );
+    } catch (err) {
+      console.log(err);
     }
-  );
+  });
 
-  socket.on(
-    "disconnect",
-    () => {
-      const matchId =
-        socket.matchId;
+  socket.on("disconnect", () => {
+    const matchId = socket.matchId;
 
-      if (
-        matchId &&
-        viewers[matchId]
-      ) {
-        viewers[matchId]--;
+    if (matchId && viewers[matchId]) {
+      viewers[matchId]--;
 
-        if (
-          viewers[matchId] < 0
-        ) {
-          viewers[matchId] = 0;
-        }
-
-        io.to(matchId).emit(
-          "viewerUpdate",
-          viewers[matchId]
-        );
+      if (viewers[matchId] < 0) {
+        viewers[matchId] = 0;
       }
 
-      console.log(
-        "User Left"
+      io.to(matchId).emit(
+        "viewerUpdate",
+        viewers[matchId]
       );
     }
-  );
+
+    console.log("User Left");
+  });
 });
 
 app.get("/", (req, res) => {
   res.send("Backend running 🚀");
 });
 
-server.listen(
-  process.env.PORT,
-  () => {
-    console.log(
-      `Server running on port ${process.env.PORT}`
-    );
-  }
-);
+server.listen(process.env.PORT, () => {
+  console.log(
+    `Server running on port ${process.env.PORT}`
+  );
+});
