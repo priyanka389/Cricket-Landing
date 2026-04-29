@@ -27,40 +27,40 @@ const SignUp = () => {
 
   // ✅ SEND OTP
   const sendOTP = async () => {
-    if (!formData.email) return alert("Enter email first")
+  if (!formData.email) return alert("Enter email first");
 
-    try {
-  setLoading(true);
+  try {
+    setLoading(true);
 
-  const res = await fetch("https://cricket-landing.onrender.com/api/auth/send-otp", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ email: formData.email })
-  });
+    const res = await fetch("https://cricket-landing.onrender.com/api/auth/send-otp", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ email: formData.email })
+    });
 
-  const text = await res.text();
-  const data = JSON.parse(text);
+    const data = await res.json();
+    console.log(data);
 
-  console.log(data);
+    if (data.success) {
+      setOtpSent(true);
+      alert("OTP sent 📩");
+    } else {
+      alert(data.message);
 
-  if (data.success) {
-    setOtpSent(true);
-    alert("OTP sent 📩");
-  } else {
-    alert(data.message);
-
-    if (data.message === "User already exists, please login") {
-      navigate("/signin");
+      if (data.message === "User already exists, please login") {
+        navigate("/signin");
+      }
     }
-  }
 
-} catch (err) {
-  console.log(err);
-  alert("Error sending OTP");
-}
+  } catch (err) {
+    console.log(err);
+    alert("Error sending OTP");
+  } finally {
+    setLoading(false);
   }
+};
 
   // ✅ VERIFY OTP (NEW)
   const verifyOTP = async () => {
