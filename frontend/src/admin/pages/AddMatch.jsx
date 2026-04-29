@@ -19,7 +19,7 @@ const AddMatch = () => {
   });
 
   useEffect(() => {
-    fetch("http://localhost:4000/api/team/all")
+    fetch("https://cricket-landing.onrender.com/api/team/all")
       .then((res) => res.json())
       .then((data) => setTeams(data.teams))
       .catch((err) => console.log(err));
@@ -41,7 +41,7 @@ const AddMatch = () => {
     }
 
     try {
-      await fetch("http://localhost:4000/api/match/add", {
+      await fetch("https://cricket-landing.onrender.com/api/match/add", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

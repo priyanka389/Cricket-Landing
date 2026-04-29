@@ -14,7 +14,7 @@ const Schedule = () => {
   const fetchMatches = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:4000/api/match/all"
+        "https://cricket-landing.onrender.com/api/match/all"
       );
 
       setMatches(res.data.matches);
@@ -69,7 +69,7 @@ const Schedule = () => {
       const token = localStorage.getItem("token");
 
       const res = await axios.post(
-        "http://localhost:4000/api/notifications",
+        "https://cricket-landing.onrender.com/api/notifications",
         {
           matchId: match._id,
           message: `${match.teamA} vs ${match.teamB} starts at ${match.time} ⏰`

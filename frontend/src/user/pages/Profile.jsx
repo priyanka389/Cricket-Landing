@@ -33,7 +33,7 @@ const Profile = () => {
         localStorage.getItem("token");
 
       const res = await axios.get(
-        "http://localhost:4000/api/user/profile",
+        "https://cricket-landing.onrender.com/api/user/profile",
         {
           headers: {
             Authorization: `Bearer ${token}`
@@ -64,7 +64,7 @@ const Profile = () => {
 
         const res =
           await axios.put(
-            "http://localhost:4000/api/user/update",
+            "https://cricket-landing.onrender.com/api/user/update",
             form,
             {
               headers: {
@@ -113,7 +113,7 @@ const Profile = () => {
 
         const res =
           await axios.put(
-            "http://localhost:4000/api/user/change-password",
+            "https://cricket-landing.onrender.com/api/user/change-password",
             {
               oldPassword:
                 passwordForm.oldPassword,

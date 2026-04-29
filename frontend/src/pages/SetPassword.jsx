@@ -13,7 +13,7 @@ const SetPassword = () => {
     console.log("TOKEN:", token); // 🔥 debug
 
     try {
-      const res = await fetch("http://localhost:4000/api/auth/set-password", {
+      const res = await fetch("https://cricket-landing.onrender.com/api/auth/set-password", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

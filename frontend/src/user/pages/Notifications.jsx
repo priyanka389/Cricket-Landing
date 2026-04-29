@@ -15,7 +15,7 @@ const Notifications = () => {
       const token = localStorage.getItem("token");
 
       const res = await axios.get(
-        "http://localhost:4000/api/notifications",
+        "https://cricket-landing.onrender.com/api/notifications",
         {
           headers: {
             Authorization: `Bearer ${token}`
@@ -34,7 +34,7 @@ const Notifications = () => {
     const token = localStorage.getItem("token");
 
     await axios.put(
-      `http://localhost:4000/api/notifications/${id}/read`,
+      `https://cricket-landing.onrender.com/api/notifications/${id}/read`,
       {},
       {
         headers: {
@@ -50,7 +50,7 @@ const Notifications = () => {
     const token = localStorage.getItem("token");
 
     await axios.delete(
-      `http://localhost:4000/api/notifications/${id}`,
+      `https://cricket-landing.onrender.com/api/notifications/${id}`,
       {
         headers: {
           Authorization: `Bearer ${token}`

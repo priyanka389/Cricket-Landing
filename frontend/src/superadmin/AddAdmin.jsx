@@ -23,7 +23,7 @@ const AddAdmin = () => {
 
 
     try {
-      const res = await fetch("http://localhost:4000/api/admin/create-admin", {
+      const res = await fetch("https://cricket-landing.onrender.com/api/admin/create-admin", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

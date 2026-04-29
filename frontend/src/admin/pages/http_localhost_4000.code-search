@@ -1,0 +1,328 @@
+# Query: http://localhost:4000
+# ContextLines: 1
+
+75 results - 27 files
+
+frontend\src\admin\pages\AddMatch.jsx:
+  21    useEffect(() => {
+  22:     fetch("http://localhost:4000/api/team/all")
+  23        .then((res) => res.json())
+
+  43      try {
+  44:       await fetch("http://localhost:4000/api/match/add", {
+  45          method: "POST",
+
+frontend\src\admin\pages\AdminDashboard.jsx:
+  48      // USERS
+  49:     fetch("http://localhost:4000/api/user/all")
+  50        .then(res => res.json())
+
+  54      // MATCHES
+  55:     fetch("http://localhost:4000/api/match/all")
+  56    .then(res => res.json())
+
+  69      // ✅ 🔥 REAL ACTIVITY FROM DB (FIXED)
+  70:     fetch("http://localhost:4000/api/activity/all")
+  71        .then(res => res.json())
+
+frontend\src\admin\pages\EditMatch.jsx:
+  29    useEffect(() => {
+  30:     fetch("http://localhost:4000/api/team/all")
+  31        .then(res => res.json())
+
+  36    useEffect(() => {
+  37:     fetch(`http://localhost:4000/api/match/${id}`)
+  38        .then(res => res.json())
+
+  50      try {
+  51:       await fetch(`http://localhost:4000/api/match/update/${id}`, {
+  52          method: "PUT",
+
+frontend\src\admin\pages\LiveControlPanel.jsx:
+  12    const fetchMatches = () => {
+  13:     fetch("http://localhost:4000/api/match/all")
+  14        .then(res => res.json())
+
+frontend\src\admin\pages\LiveMatchControl.jsx:
+   36    useEffect(() => {
+   37:     fetch(`http://localhost:4000/api/match/${id}`)
+   38        .then(res => res.json())
+
+   40  
+   41:     fetch("http://localhost:4000/api/player/all")
+   42        .then(res => res.json())
+
+   51  
+   52:   fetch(`http://localhost:4000/api/match/balls/${id}`)
+   53      .then(res => res.json())
+
+  357    // status update
+  358:   await fetch(`http://localhost:4000/api/match/status/${id}`, {
+  359      method: "PUT",
+
+  374      try {
+  375:       await fetch("http://localhost:4000/api/match/ball", {
+  376          method: "POST",
+
+frontend\src\admin\pages\LiveMatches.jsx:
+  12    const fetchMatches = () => {
+  13:     fetch("http://localhost:4000/api/match/all")
+  14        .then(res => res.json())
+
+frontend\src\admin\pages\ManageMatches.jsx:
+   17    useEffect(() => {
+   18:     fetch("http://localhost:4000/api/match/all")
+   19        .then(res => res.json())
+
+   53      try {
+   54:       await fetch(`http://localhost:4000/api/match/delete/${id}`, {
+   55          method: "DELETE"
+
+  178    onClick={async () => {
+  179:     await fetch(`http://localhost:4000/api/match/status/${match._id}`, {
+  180        method: "PUT",
+
+  199    onClick={async () => {
+  200:     await fetch(`http://localhost:4000/api/match/status/${match._id}`, {
+  201        method: "PUT",
+
+  220    onClick={async () => {
+  221:     await fetch(`http://localhost:4000/api/match/status/${match._id}`, {
+  222        method: "PUT",
+
+frontend\src\admin\pages\ManagePlayers.jsx:
+  20    useEffect(() => {
+  21:     fetch("http://localhost:4000/api/team/all")
+  22        .then(res => res.json())
+
+  28    const loadPlayers = () => {
+  29:     fetch("http://localhost:4000/api/player/all")
+  30        .then(res => res.json())
+
+  45      try {
+  46:       await fetch("http://localhost:4000/api/player/add", {
+  47          method: "POST",
+
+frontend\src\admin\pages\ManageSquad.jsx:
+   22  
+   23:     fetch("http://localhost:4000/api/match/all")
+   24        .then(res => res.json())
+
+   26  
+   27:     fetch("http://localhost:4000/api/team/all")
+   28        .then(res => res.json())
+
+   30  
+   31:     fetch("http://localhost:4000/api/player/all")
+   32        .then(res => res.json())
+
+   39    const loadSquads = () => {
+   40:     fetch("http://localhost:4000/api/squad/all")
+   41        .then(res => res.json())
+
+   78      const url = editId
+   79:       ? `http://localhost:4000/api/squad/update/${editId}`
+   80:       : "http://localhost:4000/api/squad/add";
+   81  
+
+  110    const handleDelete = async (id) => {
+  111:     await fetch(`http://localhost:4000/api/squad/delete/${id}`, {
+  112        method: "DELETE"
+
+frontend\src\admin\pages\ManageTeams.jsx:
+   12    useEffect(() => {
+   13:     fetch("http://localhost:4000/api/team/all")
+   14        .then(res => res.json())
+
+   31  
+   32:       await fetch("http://localhost:4000/api/team/add", {
+   33          method: "POST",
+
+   39        // 🔥 reload data from DB
+   40:       const res = await fetch("http://localhost:4000/api/team/all");
+   41        const data = await res.json();
+
+  130                    <img
+  131:                     src={`http://localhost:4000/uploads/${team.logo}`}
+  132                      className="w-10 h-10 rounded-full object-cover"
+
+frontend\src\pages\SetPassword.jsx:
+  15      try {
+  16:       const res = await fetch("http://localhost:4000/api/auth/set-password", {
+  17          method: "POST",
+
+frontend\src\pages\SignIn.jsx:
+  26    try {
+  27:     const res = await fetch("http://localhost:4000/api/auth/login", {
+  28        method: "POST",
+
+  71        const res = await axios.post(
+  72:         "http://localhost:4000/api/auth/google-login",
+  73          {
+
+frontend\src\pages\SignUp.jsx:
+   34  
+   35:       const res = await fetch("http://localhost:4000/api/auth/send-otp", {
+   36          method: "POST",
+
+   71  
+   72:       const res = await fetch("http://localhost:4000/api/auth/verify-otp", {
+   73          method: "POST",
+
+  113  
+  114:       const res = await fetch("http://localhost:4000/api/auth/signup", {
+  115          method: "POST",
+
+frontend\src\superadmin\AddAdmin.jsx:
+  25      try {
+  26:       const res = await fetch("http://localhost:4000/api/admin/create-admin", {
+  27          method: "POST",
+
+frontend\src\superadmin\AdminManagement.jsx:
+  26      try {
+  27:       const res = await fetch("http://localhost:4000/api/admin/get-admins", {
+  28          headers: {
+
+  50    try {
+  51:     const res = await fetch(`http://localhost:4000/api/admin/delete-admin/${id}`, {
+  52        method: "DELETE",
+
+frontend\src\superadmin\UserManagement.jsx:
+  18      try {
+  19:       const res = await fetch("http://localhost:4000/api/admin/get-users");
+  20  
+
+frontend\src\user\components\TopNavbar.jsx:
+  26            await axios.get(
+  27:             "http://localhost:4000/api/user/profile",
+  28              {
+
+frontend\src\user\pages\BillingHistory.jsx:
+  27            await axios.get(
+  28:             "http://localhost:4000/api/user/billing",
+  29              {
+
+  57            await axios.get(
+  58:             `http://localhost:4000/api/user/invoice/${id}`,
+  59              {
+
+frontend\src\user\pages\Notifications.jsx:
+  17        const res = await axios.get(
+  18:         "http://localhost:4000/api/notifications",
+  19          {
+
+  36      await axios.put(
+  37:       `http://localhost:4000/api/notifications/${id}/read`,
+  38        {},
+
+  52      await axios.delete(
+  53:       `http://localhost:4000/api/notifications/${id}`,
+  54        {
+
+frontend\src\user\pages\PaymentSuccess.jsx:
+  35          await axios.put(
+  36:           "http://localhost:4000/api/user/subscribe",
+  37            {
+
+frontend\src\user\pages\Profile.jsx:
+   35        const res = await axios.get(
+   36:         "http://localhost:4000/api/user/profile",
+   37          {
+
+   66            await axios.put(
+   67:             "http://localhost:4000/api/user/update",
+   68              form,
+
+  115            await axios.put(
+  116:             "http://localhost:4000/api/user/change-password",
+  117              {
+
+frontend\src\user\pages\Schedule.jsx:
+  16        const res = await axios.get(
+  17:         "http://localhost:4000/api/match/all"
+  18        );
+
+  71        const res = await axios.post(
+  72:         "http://localhost:4000/api/notifications",
+  73          {
+
+frontend\src\user\pages\Subscription.jsx:
+   72            await axios.get(
+   73:             "http://localhost:4000/api/user/profile",
+   74              {
+
+  100            await axios.post(
+  101:             "http://localhost:4000/api/payment/create-checkout-session",
+  102              {
+
+frontend\src\user\pages\UserDashboard.jsx:
+   47        const res = await axios.get(
+   48:         "http://localhost:4000/api/watchlist",
+   49          {
+
+   81      const res = await axios.get(
+   82:       "http://localhost:4000/api/notifications",
+   83        {
+
+   99      const res = await axios.get(
+  100:       "http://localhost:4000/api/match/all"
+  101      );
+
+  127          await axios.delete(
+  128:           `http://localhost:4000/api/watchlist/${exists._id}`,
+  129            {
+
+  136          await axios.post(
+  137:           "http://localhost:4000/api/watchlist",
+  138            {
+
+  164        const res = await axios.get(
+  165:         "http://localhost:4000/api/match/all"
+  166        );
+
+  184        const res = await axios.post(
+  185:         "http://localhost:4000/api/notifications",
+  186          {
+
+frontend\src\user\pages\UserLiveMatches.jsx:
+  17        const res = await axios.get(
+  18:         "http://localhost:4000/api/match/all"
+  19        );
+
+frontend\src\user\pages\Watchlist.jsx:
+  16        const res = await axios.get(
+  17:         "http://localhost:4000/api/watchlist",
+  18          {
+
+frontend\src\user\pages\WatchLive.jsx:
+   10  const socket = io(
+   11:   "http://localhost:4000",
+   12    {
+
+  222            await axios.get(
+  223:             `http://localhost:4000/api/match/${id}`
+  224            );
+
+  240            await axios.get(
+  241:             `http://localhost:4000/api/match/balls/${id}`
+  242            );
+
+  296            await axios.get(
+  297:             `http://localhost:4000/api/live/chat/${id}`
+  298            );
+
+  330          await axios.post(
+  331:           "http://localhost:4000/api/live/chat",
+  332            msgData
+
+  347            await axios.get(
+  348:             `http://localhost:4000/api/live/poll/${id}`
+  349            );
+
+  380          await axios.post(
+  381:           "http://localhost:4000/api/live/poll",
+  382            {
+
+  405            await axios.get(
+  406:             `http://localhost:4000/api/reaction/${id}`
+  407            );

@@ -45,7 +45,7 @@ settings?.notifications ?? true;
       const token = localStorage.getItem("token");
 
       const res = await axios.get(
-        "http://localhost:4000/api/watchlist",
+        "https://cricket-landing.onrender.com/api/watchlist",
         {
           headers: {
             Authorization: `Bearer ${token}`
@@ -79,7 +79,7 @@ settings?.notifications ?? true;
       localStorage.getItem("token");
 
     const res = await axios.get(
-      "http://localhost:4000/api/notifications",
+      "https://cricket-landing.onrender.com/api/notifications",
       {
         headers: {
           Authorization: `Bearer ${token}`
@@ -97,7 +97,7 @@ settings?.notifications ?? true;
   const fetchUpcomingMatches = async () => {
   try {
     const res = await axios.get(
-      "http://localhost:4000/api/match/all"
+      "https://cricket-landing.onrender.com/api/match/all"
     );
 
     const upcoming = res.data.matches.filter(
@@ -125,7 +125,7 @@ settings?.notifications ?? true;
 
       if (exists) {
         await axios.delete(
-          `http://localhost:4000/api/watchlist/${exists._id}`,
+          `https://cricket-landing.onrender.com/api/watchlist/${exists._id}`,
           {
             headers: {
               Authorization: `Bearer ${token}`
@@ -134,7 +134,7 @@ settings?.notifications ?? true;
         );
       } else {
         await axios.post(
-          "http://localhost:4000/api/watchlist",
+          "https://cricket-landing.onrender.com/api/watchlist",
           {
             matchId: match._id || match.id,
             teams:
@@ -162,7 +162,7 @@ settings?.notifications ?? true;
   const fetchLiveMatches = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:4000/api/match/all"
+        "https://cricket-landing.onrender.com/api/match/all"
       );
 
       const live = res.data.matches.filter(
@@ -182,7 +182,7 @@ settings?.notifications ?? true;
       const token = localStorage.getItem("token");
 
       const res = await axios.post(
-        "http://localhost:4000/api/notifications",
+        "https://cricket-landing.onrender.com/api/notifications",
         {
           matchId: match._id || match.id,
           message: `${

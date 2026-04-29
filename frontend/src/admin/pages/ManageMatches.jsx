@@ -15,7 +15,7 @@ const ManageMatches = () => {
   const [matches, setMatches] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:4000/api/match/all")
+    fetch("https://cricket-landing.onrender.com/api/match/all")
       .then(res => res.json())
       .then(data => setMatches(data.matches))
       .catch(err => console.log(err));
@@ -51,7 +51,7 @@ const ManageMatches = () => {
   // 🔥 DELETE FUNCTION (same)
   const handleDelete = async (id) => {
     try {
-      await fetch(`http://localhost:4000/api/match/delete/${id}`, {
+      await fetch(`https://cricket-landing.onrender.com/api/match/delete/${id}`, {
         method: "DELETE"
       });
 
@@ -176,7 +176,7 @@ const ManageMatches = () => {
   <button
   disabled={status !== "upcoming"}
   onClick={async () => {
-    await fetch(`http://localhost:4000/api/match/status/${match._id}`, {
+    await fetch(`https://cricket-landing.onrender.com/api/match/status/${match._id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ status: "live" })
@@ -197,7 +197,7 @@ const ManageMatches = () => {
  <button
   disabled={status !== "live"}
   onClick={async () => {
-    await fetch(`http://localhost:4000/api/match/status/${match._id}`, {
+    await fetch(`https://cricket-landing.onrender.com/api/match/status/${match._id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ status: "paused" })
@@ -218,7 +218,7 @@ const ManageMatches = () => {
   <button
   disabled={status === "completed"}
   onClick={async () => {
-    await fetch(`http://localhost:4000/api/match/status/${match._id}`, {
+    await fetch(`https://cricket-landing.onrender.com/api/match/status/${match._id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ status: "completed" })

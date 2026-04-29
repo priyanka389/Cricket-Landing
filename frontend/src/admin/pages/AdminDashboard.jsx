@@ -46,13 +46,13 @@ const AdminDashboard = () => {
   useEffect(() => {
 
     // USERS
-    fetch("http://localhost:4000/api/user/all")
+    fetch("https://cricket-landing.onrender.com/api/user/all")
       .then(res => res.json())
       .then(data => setTotalUsers(data.users.length))
       .catch(err => console.log(err));
 
     // MATCHES
-    fetch("http://localhost:4000/api/match/all")
+    fetch("https://cricket-landing.onrender.com/api/match/all")
   .then(res => res.json())
   .then(data => {
 
@@ -67,7 +67,7 @@ const AdminDashboard = () => {
       .catch(err => console.log(err));
 
     // ✅ 🔥 REAL ACTIVITY FROM DB (FIXED)
-    fetch("http://localhost:4000/api/activity/all")
+    fetch("https://cricket-landing.onrender.com/api/activity/all")
       .then(res => res.json())
       .then(data => setActivities(data.activities))
       .catch(err => console.log(err));

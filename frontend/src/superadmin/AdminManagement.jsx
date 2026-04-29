@@ -24,7 +24,7 @@ const AdminManagement = () => {
 
   const fetchAdmins = async () => {
     try {
-      const res = await fetch("http://localhost:4000/api/admin/get-admins", {
+      const res = await fetch("https://cricket-landing.onrender.com/api/admin/get-admins", {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`
         }
@@ -48,7 +48,7 @@ const AdminManagement = () => {
   
  const deleteAdmin = async (id) => {
   try {
-    const res = await fetch(`http://localhost:4000/api/admin/delete-admin/${id}`, {
+    const res = await fetch(`https://cricket-landing.onrender.com/api/admin/delete-admin/${id}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`

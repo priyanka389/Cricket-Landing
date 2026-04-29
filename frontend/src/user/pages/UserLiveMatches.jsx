@@ -15,7 +15,7 @@ const UserLiveMatches = () => {
   const fetchMatches = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:4000/api/match/all"
+        "https://cricket-landing.onrender.com/api/match/all"
       );
 
       const live = res.data.matches.filter(

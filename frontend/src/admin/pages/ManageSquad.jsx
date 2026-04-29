@@ -20,15 +20,15 @@ const ManageSquad = () => {
 
   useEffect(() => {
 
-    fetch("http://localhost:4000/api/match/all")
+    fetch("https://cricket-landing.onrender.com/api/match/all")
       .then(res => res.json())
       .then(data => setMatches(data.matches || []));
 
-    fetch("http://localhost:4000/api/team/all")
+    fetch("https://cricket-landing.onrender.com/api/team/all")
       .then(res => res.json())
       .then(data => setTeams(data.teams || []));
 
-    fetch("http://localhost:4000/api/player/all")
+    fetch("https://cricket-landing.onrender.com/api/player/all")
       .then(res => res.json())
       .then(data => setPlayers(data.players || []));
 
@@ -37,7 +37,7 @@ const ManageSquad = () => {
   }, []);
 
   const loadSquads = () => {
-    fetch("http://localhost:4000/api/squad/all")
+    fetch("https://cricket-landing.onrender.com/api/squad/all")
       .then(res => res.json())
       .then(data => setSquads(data.squads || []));
   };
@@ -76,8 +76,8 @@ if (matchObj?.status === "live") {
     }
 
     const url = editId
-      ? `http://localhost:4000/api/squad/update/${editId}`
-      : "http://localhost:4000/api/squad/add";
+      ? `https://cricket-landing.onrender.com/api/squad/update/${editId}`
+      : "https://cricket-landing.onrender.com/api/squad/add";
 
     const method = editId ? "PUT" : "POST";
 
@@ -108,7 +108,7 @@ if (matchObj?.status === "live") {
   };
 
   const handleDelete = async (id) => {
-    await fetch(`http://localhost:4000/api/squad/delete/${id}`, {
+    await fetch(`https://cricket-landing.onrender.com/api/squad/delete/${id}`, {
       method: "DELETE"
     });
 

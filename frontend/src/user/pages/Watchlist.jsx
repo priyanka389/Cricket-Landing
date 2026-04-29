@@ -14,7 +14,7 @@ const Watchlist = () => {
       const token = localStorage.getItem("token");
 
       const res = await axios.get(
-        "http://localhost:4000/api/watchlist",
+        "https://cricket-landing.onrender.com/api/watchlist",
         {
           headers: {
             Authorization: `Bearer ${token}`

@@ -34,11 +34,11 @@ const [firstInningsScore, setFirstInningsScore] = useState(0);
   const [winner, setWinner] = useState("");
 
   useEffect(() => {
-    fetch(`http://localhost:4000/api/match/${id}`)
+    fetch(`https://cricket-landing.onrender.com/api/match/${id}`)
       .then(res => res.json())
       .then(setMatch);
 
-    fetch("http://localhost:4000/api/player/all")
+    fetch("https://cricket-landing.onrender.com/api/player/all")
       .then(res => res.json())
       .then(data => setPlayers(data.players));
   }, [id]);
@@ -49,7 +49,7 @@ const [firstInningsScore, setFirstInningsScore] = useState(0);
   // ⚠️ ensure players & match loaded
   if (!players.length || !match) return;
 
-  fetch(`http://localhost:4000/api/match/balls/${id}`)
+  fetch(`https://cricket-landing.onrender.com/api/match/balls/${id}`)
     .then(res => res.json())
     .then(data => {
 
@@ -355,7 +355,7 @@ if (innings === 2) {
   setWinner(result);
 
   // status update
-  await fetch(`http://localhost:4000/api/match/status/${id}`, {
+  await fetch(`https://cricket-landing.onrender.com/api/match/status/${id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json"
@@ -372,7 +372,7 @@ if (innings === 2) {
 
     // ✅🔥 ONLY ADDITION
     try {
-      await fetch("http://localhost:4000/api/match/ball", {
+      await fetch("https://cricket-landing.onrender.com/api/match/ball", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

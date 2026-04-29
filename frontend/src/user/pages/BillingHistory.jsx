@@ -25,7 +25,7 @@ const BillingHistory = () => {
 
         const res =
           await axios.get(
-            "http://localhost:4000/api/user/billing",
+            "https://cricket-landing.onrender.com/api/user/billing",
             {
               headers: {
                 Authorization:
@@ -55,7 +55,7 @@ const BillingHistory = () => {
 
         const res =
           await axios.get(
-            `http://localhost:4000/api/user/invoice/${id}`,
+            `https://cricket-landing.onrender.com/api/user/invoice/${id}`,
             {
               headers: {
                 Authorization:

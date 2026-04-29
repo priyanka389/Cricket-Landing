@@ -18,7 +18,7 @@ const ManagePlayers = () => {
 
   // 🔥 Load teams
   useEffect(() => {
-    fetch("http://localhost:4000/api/team/all")
+    fetch("https://cricket-landing.onrender.com/api/team/all")
       .then(res => res.json())
       .then(data => setTeams(data.teams || []))
       .catch(err => console.log(err));
@@ -26,7 +26,7 @@ const ManagePlayers = () => {
 
   // 🔥 Load players
   const loadPlayers = () => {
-    fetch("http://localhost:4000/api/player/all")
+    fetch("https://cricket-landing.onrender.com/api/player/all")
       .then(res => res.json())
       .then(data => setPlayers(data.players || data || []))
       .catch(err => console.log(err));
@@ -43,7 +43,7 @@ const ManagePlayers = () => {
     }
 
     try {
-      await fetch("http://localhost:4000/api/player/add", {
+      await fetch("https://cricket-landing.onrender.com/api/player/add", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

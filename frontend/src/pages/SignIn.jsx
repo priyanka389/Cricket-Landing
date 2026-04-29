@@ -24,7 +24,7 @@ const SignIn = () => {
   e.preventDefault()
 
   try {
-    const res = await fetch("http://localhost:4000/api/auth/login", {
+    const res = await fetch("https://cricket-landing.onrender.com/api/auth/login", {
       method: "POST",
      headers: {
   "Content-Type": "application/json",
@@ -69,7 +69,7 @@ const googleLogin = useGoogleLogin({
   onSuccess: async (tokenResponse) => {
     try {
       const res = await axios.post(
-        "http://localhost:4000/api/auth/google-login",
+        "https://cricket-landing.onrender.com/api/auth/google-login",
         {
           access_token: tokenResponse.access_token,
         }

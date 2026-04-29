@@ -16,7 +16,7 @@ const UserManagement = () => {
 
   const fetchUsers = async () => {
     try {
-      const res = await fetch("http://localhost:4000/api/admin/get-users");
+      const res = await fetch("https://cricket-landing.onrender.com/api/admin/get-users");
 
       const data = await res.json();
 

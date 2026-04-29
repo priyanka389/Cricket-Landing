@@ -27,14 +27,14 @@ const EditMatch = () => {
 
   // 🔥 load teams
   useEffect(() => {
-    fetch("http://localhost:4000/api/team/all")
+    fetch("https://cricket-landing.onrender.com/api/team/all")
       .then(res => res.json())
       .then(data => setTeams(data.teams));
   }, []);
 
   // 🔥 load match data
   useEffect(() => {
-    fetch(`http://localhost:4000/api/match/${id}`)
+    fetch(`https://cricket-landing.onrender.com/api/match/${id}`)
       .then(res => res.json())
       .then(data => setForm(data));
   }, [id]);
@@ -48,7 +48,7 @@ const EditMatch = () => {
     e.preventDefault();
 
     try {
-      await fetch(`http://localhost:4000/api/match/update/${id}`, {
+      await fetch(`https://cricket-landing.onrender.com/api/match/update/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json"

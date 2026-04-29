@@ -8,7 +8,7 @@ import UserSidebar from "../components/UserSidebar";
 import ReactPlayer from "react-player";
 
 const socket = io(
-  "http://localhost:4000",
+  "https://cricket-landing.onrender.com",
   {
     transports: ["websocket"]
   }
@@ -220,7 +220,7 @@ const WatchLive = () => {
       try {
         const res =
           await axios.get(
-            `http://localhost:4000/api/match/${id}`
+            `https://cricket-landing.onrender.com/api/match/${id}`
           );
 
         setMatch(
@@ -238,7 +238,7 @@ const WatchLive = () => {
       try {
         const res =
           await axios.get(
-            `http://localhost:4000/api/match/balls/${id}`
+            `https://cricket-landing.onrender.com/api/match/balls/${id}`
           );
 
         const latest =
@@ -294,7 +294,7 @@ const WatchLive = () => {
       try {
         const res =
           await axios.get(
-            `http://localhost:4000/api/live/chat/${id}`
+            `https://cricket-landing.onrender.com/api/live/chat/${id}`
           );
 
         setChat(
@@ -328,7 +328,7 @@ const WatchLive = () => {
 
       try {
         await axios.post(
-          "http://localhost:4000/api/live/chat",
+          "https://cricket-landing.onrender.com/api/live/chat",
           msgData
         );
       } catch (error) {
@@ -345,7 +345,7 @@ const WatchLive = () => {
       try {
         const res =
           await axios.get(
-            `http://localhost:4000/api/live/poll/${id}`
+            `https://cricket-landing.onrender.com/api/live/poll/${id}`
           );
 
         setPoll(
@@ -378,7 +378,7 @@ const WatchLive = () => {
 
       try {
         await axios.post(
-          "http://localhost:4000/api/live/poll",
+          "https://cricket-landing.onrender.com/api/live/poll",
           {
             matchId: id,
             team
@@ -403,7 +403,7 @@ const WatchLive = () => {
       try {
         const res =
           await axios.get(
-            `http://localhost:4000/api/reaction/${id}`
+            `https://cricket-landing.onrender.com/api/reaction/${id}`
           );
 
         setReactions(

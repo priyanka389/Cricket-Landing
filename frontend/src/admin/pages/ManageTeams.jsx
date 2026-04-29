@@ -10,7 +10,7 @@ const ManageTeams = () => {
 
   // ✅ DB से load
   useEffect(() => {
-    fetch("http://localhost:4000/api/team/all")
+    fetch("https://cricket-landing.onrender.com/api/team/all")
       .then(res => res.json())
       .then(data => setTeams(data.teams))
       .catch(err => console.log(err));
@@ -29,7 +29,7 @@ const ManageTeams = () => {
       formData.append("short", teamName.slice(0, 3).toUpperCase());
       formData.append("logo", logo);
 
-      await fetch("http://localhost:4000/api/team/add", {
+      await fetch("https://cricket-landing.onrender.com/api/team/add", {
         method: "POST",
         body: formData
       });
@@ -37,7 +37,7 @@ const ManageTeams = () => {
       alert("Team saved in DB ✅");
 
       // 🔥 reload data from DB
-      const res = await fetch("http://localhost:4000/api/team/all");
+      const res = await fetch("https://cricket-landing.onrender.com/api/team/all");
       const data = await res.json();
       setTeams(data.teams);
 
@@ -128,7 +128,7 @@ const ManageTeams = () => {
 
                 {team.logo ? (
                   <img
-                    src={`http://localhost:4000/uploads/${team.logo}`}
+                    src={`https://cricket-landing.onrender.com/uploads/${team.logo}`}
                     className="w-10 h-10 rounded-full object-cover"
                   />
                 ) : (

@@ -33,7 +33,7 @@ const PaymentSuccess = () => {
           );
 
         await axios.put(
-          "http://localhost:4000/api/user/subscribe",
+          "https://cricket-landing.onrender.com/api/user/subscribe",
           {
             plan
           },

@@ -70,7 +70,7 @@ const Subscription = () => {
 
         const res =
           await axios.get(
-            "http://localhost:4000/api/user/profile",
+            "https://cricket-landing.onrender.com/api/user/profile",
             {
               headers: {
                 Authorization:
@@ -98,7 +98,7 @@ const Subscription = () => {
       try {
         const res =
           await axios.post(
-            "http://localhost:4000/api/payment/create-checkout-session",
+            "https://cricket-landing.onrender.com/api/payment/create-checkout-session",
             {
               plan:
                 planName,

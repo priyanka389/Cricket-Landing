@@ -32,7 +32,7 @@ const SignUp = () => {
     try {
       setLoading(true)
 
-      const res = await fetch("http://localhost:4000/api/auth/send-otp", {
+      const res = await fetch("https://cricket-landing.onrender.com/api/auth/send-otp", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -69,7 +69,7 @@ const SignUp = () => {
     try {
       setLoading(true)
 
-      const res = await fetch("http://localhost:4000/api/auth/verify-otp", {
+      const res = await fetch("https://cricket-landing.onrender.com/api/auth/verify-otp", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -111,7 +111,7 @@ const SignUp = () => {
     try {
       setLoading(true)
 
-      const res = await fetch("http://localhost:4000/api/auth/signup", {
+      const res = await fetch("https://cricket-landing.onrender.com/api/auth/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
