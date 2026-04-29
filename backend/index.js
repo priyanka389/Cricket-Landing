@@ -23,15 +23,20 @@ require("./routes/paymentRoutes");
 
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:5173",
-    methods: ["GET", "POST"]
+    origin: "https://cricket-landing-7vmqozx4j-priyanka-kumaris-projects-c8f4983a.vercel.app",
+    methods: ["GET", "POST"],
+    credentials: true
   }
 });
 
 const viewers = {};
 
 // middleware
-app.use(cors());
+app.use(cors({
+  origin: "https://cricket-landing-7vmqozx4j-priyanka-kumaris-projects-c8f4983a.vercel.app",
+  credentials: true
+}));
+
 // app.use(express.json());
 
 app.use(

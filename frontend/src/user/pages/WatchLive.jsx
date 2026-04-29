@@ -560,7 +560,7 @@ const WatchLive = () => {
 
 <div className="rounded-xl overflow-hidden bg-black h-[65vh]">
   <ReactPlayer
-    url="http://192.168.1.12:8000/live/match/index.m3u8"
+    url="https://your-stream-url/live/match/index.m3u8"
     playing={true}
     controls={true}
     muted={true}
