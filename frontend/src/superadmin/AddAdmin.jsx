@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import SuperAdminLayout from "./SuperAdminLayout";
-import { UserPlus, Mail, Lock, User, ArrowLeft } from "lucide-react";
+import { UserPlus, Mail, User, ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const AddAdmin = () => {
@@ -9,22 +9,39 @@ const AddAdmin = () => {
 
   const [form, setForm] = useState({
     name: "",
-    email: "",
-    password: ""
+    email: ""
   });
 
   const handleChange = (e) => {
+    console.log("Typing:", e.target.name, e.target.value);
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("TOKEN:", localStorage.getItem("token")); // ✅ ADD HERE
 
-    console.log("Admin Created:", form);
 
-    alert("Admin Created Successfully 🎉");
+    try {
+      const res = await fetch("http://localhost:4000/api/admin/create-admin", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}` // ✅ FIX ADDED
+        },
+        body: JSON.stringify(form)
+      });
 
-    navigate("/superadmin/admins");
+      const data = await res.json();
+
+      alert(data.msg);
+
+      navigate("/superadmin/admins");
+
+    } catch (err) {
+      console.log(err);
+      alert("Error creating admin");
+    }
   };
 
   return (
@@ -63,6 +80,7 @@ const AddAdmin = () => {
                 placeholder="Enter full name"
                 className="w-full outline-none"
                 onChange={handleChange}
+                value={form.name ?? ""}
                 required
               />
             </div>
@@ -79,22 +97,7 @@ const AddAdmin = () => {
                 placeholder="Enter email"
                 className="w-full outline-none"
                 onChange={handleChange}
-                required
-              />
-            </div>
-          </div>
-
-          {/* Password */}
-          <div>
-            <label className="text-sm font-medium text-gray-600">Password</label>
-            <div className="flex items-center gap-2 border rounded-lg px-3 py-3 mt-1 focus-within:ring-2 focus-within:ring-purple-500 transition">
-              <Lock size={16} className="text-gray-400" />
-              <input
-                type="password"
-                name="password"
-                placeholder="Enter password"
-                className="w-full outline-none"
-                onChange={handleChange}
+                value={form.email ?? ""}
                 required
               />
             </div>
@@ -102,7 +105,7 @@ const AddAdmin = () => {
 
           {/* Info Box */}
           <div className="bg-purple-100 text-purple-700 text-sm p-3 rounded-lg">
-            ℹ️ This admin will have access to manage users, matches, and analytics.
+            📩 Admin will receive an email to set their password securely.
           </div>
 
           {/* Buttons */}

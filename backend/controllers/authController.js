@@ -210,3 +210,31 @@ exports.googleLogin = async (req, res) => {
     res.status(500).json({ msg: "Google login error" });
   }
 };
+
+
+// 
+
+
+exports.setPassword = async (req, res) => {
+  try {
+    const { token, password } = req.body
+
+    const user = await User.findOne({ resetToken: token })
+
+    if (!user) {
+      return res.json({ success: false, msg: "Invalid link" })
+    }
+
+    const hashed = await bcrypt.hash(password, 10)
+
+    user.password = hashed
+    user.resetToken = null
+
+    await user.save()
+
+    res.json({ success: true, msg: "Password set successfully" })
+
+  } catch (err) {
+    res.json({ success: false, msg: "Error setting password" })
+  }
+}

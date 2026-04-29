@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import SuperAdminLayout from "./SuperAdminLayout";
 import { Search, Ban, CheckCircle, Users } from "lucide-react";
 
@@ -6,21 +6,36 @@ const UserManagement = () => {
 
   const [search, setSearch] = useState("");
 
-  const [users, setUsers] = useState([
-    { id: 1, name: "Aman", email: "aman@gmail.com", banned: false },
-    { id: 2, name: "Riya", email: "riya@gmail.com", banned: true },
-    { id: 3, name: "Rahul", email: "rahul@gmail.com", banned: false },
-    { id: 4, name: "Priya", email: "priya@gmail.com", banned: false },
-  ]);
+  // 🔥 UPDATED (empty initially)
+  const [users, setUsers] = useState([]);
+
+  // 🔥 FETCH USERS FROM DB
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+
+  const fetchUsers = async () => {
+    try {
+      const res = await fetch("http://localhost:4000/api/admin/get-users");
+
+      const data = await res.json();
+
+      setUsers(data.users || []);
+
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const toggleBan = (id) => {
     setUsers(users.map(u =>
-      u.id === id ? { ...u, banned: !u.banned } : u
+      u._id === id ? { ...u, banned: !u.banned } : u
     ));
   };
 
+  // 🔥 SAFE FILTER
   const filteredUsers = users.filter(user =>
-    user.name.toLowerCase().includes(search.toLowerCase())
+    (user.name || "").toLowerCase().includes(search.toLowerCase())
   );
 
   // ✅ Stats Logic
@@ -42,7 +57,6 @@ const UserManagement = () => {
       {/* 🔥 Stats Cards */}
       <div className="grid grid-cols-3 gap-4 mb-6">
 
-        {/* Total Users */}
         <div className="bg-gradient-to-r from-blue-100 to-blue-200 p-5 rounded-xl shadow hover:shadow-lg transition flex justify-between items-center">
           <div>
             <p className="text-blue-700 text-sm font-medium">Total Users</p>
@@ -55,7 +69,6 @@ const UserManagement = () => {
           </div>
         </div>
 
-        {/* Active Users */}
         <div className="bg-gradient-to-r from-green-100 to-green-200 p-5 rounded-xl shadow flex justify-between items-center">
           <div>
             <p className="text-green-700 text-sm font-medium">Active Users</p>
@@ -68,7 +81,6 @@ const UserManagement = () => {
           </div>
         </div>
 
-        {/* Banned Users */}
         <div className="bg-gradient-to-r from-red-100 to-red-200 p-5 rounded-xl shadow flex justify-between items-center">
           <div>
             <p className="text-red-700 text-sm font-medium">Banned Users</p>
@@ -114,21 +126,18 @@ const UserManagement = () => {
             {filteredUsers.length > 0 ? (
               filteredUsers.map(user => (
                 <tr
-                  key={user.id}
+                  key={user._id}
                   className="border-t hover:bg-gray-50 transition"
                 >
 
-                  {/* Name */}
                   <td className="p-4 font-medium text-gray-800">
-                    {user.name}
+                    {user.name || "No Name"}
                   </td>
 
-                  {/* Email */}
                   <td className="text-gray-500">
                     {user.email}
                   </td>
 
-                  {/* Status */}
                   <td>
                     <span className={`px-3 py-1 rounded-full text-xs font-semibold
                       ${user.banned
@@ -139,11 +148,10 @@ const UserManagement = () => {
                     </span>
                   </td>
 
-                  {/* Actions */}
                   <td className="text-center">
 
                     <button
-                      onClick={() => toggleBan(user.id)}
+                      onClick={() => toggleBan(user._id)}
                       className={`px-4 py-1.5 rounded-lg text-white text-sm flex items-center gap-1 inline-flex transition
                       ${user.banned
                         ? "bg-green-500 hover:bg-green-600"

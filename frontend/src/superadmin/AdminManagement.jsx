@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import SuperAdminLayout from "./SuperAdminLayout";
 import { useNavigate } from "react-router-dom";
 import {
@@ -12,33 +12,69 @@ import {
 } from "lucide-react";
 
 const AdminManagement = () => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const [search, setSearch] = useState("");
 
-  const [admins, setAdmins] = useState([
-    { id: 1, name: "Rahul", email: "rahul@gmail.com", active: true },
-    { id: 2, name: "Neha", email: "neha@gmail.com", active: false },
-    { id: 3, name: "Amit", email: "amit@gmail.com", active: true },
-  ]);
+  const [admins, setAdmins] = useState([]);
 
-  // Toggle Active/Inactive
+  useEffect(() => {
+    fetchAdmins();
+  }, []);
+
+  const fetchAdmins = async () => {
+    try {
+      const res = await fetch("http://localhost:4000/api/admin/get-admins", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`
+        }
+      });
+
+      const data = await res.json();
+      console.log("Admins:", data);
+
+      setAdmins(data.admins || data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const toggleStatus = (id) => {
     setAdmins(admins.map(a =>
-      a.id === id ? { ...a, active: !a.active } : a
+      a._id === id ? { ...a, active: !a.active } : a
     ));
   };
 
-  // Delete Admin
-  const deleteAdmin = (id) => {
-    setAdmins(admins.filter(a => a.id !== id));
-  };
+  
+ const deleteAdmin = async (id) => {
+  try {
+    const res = await fetch(`http://localhost:4000/api/admin/delete-admin/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`
+      }
+    });
 
-  const filteredAdmins = admins.filter(admin =>
-    admin.name.toLowerCase().includes(search.toLowerCase())
-  );
+    const data = await res.json();
 
-  // Stats
+    alert(data.msg);
+
+    // 🔥 UI update
+    setAdmins(admins.filter(a => a._id !== id));
+
+  } catch (err) {
+    console.log(err);
+    alert("Error deleting admin");
+  }
+};
+
+  // 🔥 FIXED FILTER (safe name handling)
+  const filteredAdmins = admins
+    .filter(a => a.role === "admin")
+    .filter(admin =>
+      (admin.name || "").toLowerCase().includes(search.toLowerCase())
+    );
+
   const totalAdmins = admins.length;
   const activeAdmins = admins.filter(a => a.active).length;
   const inactiveAdmins = admins.filter(a => !a.active).length;
@@ -46,7 +82,6 @@ const AdminManagement = () => {
   return (
     <SuperAdminLayout>
 
-      {/* Header */}
       <div className="flex justify-between items-center mb-6">
         <div className="flex items-center gap-2">
           <Shield className="text-purple-600" />
@@ -56,18 +91,16 @@ const AdminManagement = () => {
         </div>
 
         <button
-  onClick={() => navigate("/superadmin/add-admin")}
-  className="bg-purple-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-purple-700 transition shadow"
->
-  <UserPlus size={18} />
-  Add Admin
-</button>
+          onClick={() => navigate("/superadmin/add-admin")}
+          className="bg-purple-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-purple-700 transition shadow"
+        >
+          <UserPlus size={18} />
+          Add Admin
+        </button>
       </div>
 
-      {/* 🔥 Stats Cards */}
       <div className="grid grid-cols-3 gap-4 mb-6">
 
-        {/* Total */}
         <div className="bg-gradient-to-r from-purple-100 to-purple-200 p-5 rounded-xl shadow flex justify-between items-center">
           <div>
             <p className="text-purple-700 text-sm">Total Admins</p>
@@ -76,7 +109,6 @@ const AdminManagement = () => {
           <Shield />
         </div>
 
-        {/* Active */}
         <div className="bg-gradient-to-r from-green-100 to-green-200 p-5 rounded-xl shadow flex justify-between items-center">
           <div>
             <p className="text-green-700 text-sm">Active</p>
@@ -87,7 +119,6 @@ const AdminManagement = () => {
           </div>
         </div>
 
-        {/* Inactive */}
         <div className="bg-gradient-to-r from-red-100 to-red-200 p-5 rounded-xl shadow flex justify-between items-center">
           <div>
             <p className="text-red-700 text-sm">Inactive</p>
@@ -100,7 +131,6 @@ const AdminManagement = () => {
 
       </div>
 
-      {/* Search */}
       <div className="mb-5 flex items-center gap-2 bg-white px-4 py-3 rounded-xl shadow">
         <Search size={18} className="text-gray-400" />
         <input
@@ -112,7 +142,6 @@ const AdminManagement = () => {
         />
       </div>
 
-      {/* Table */}
       <div className="bg-white shadow-xl rounded-2xl overflow-hidden">
 
         <table className="w-full text-left">
@@ -130,12 +159,15 @@ const AdminManagement = () => {
 
             {filteredAdmins.length > 0 ? (
               filteredAdmins.map(admin => (
-                <tr key={admin.id} className="border-t hover:bg-gray-50 transition">
+                <tr key={admin._id} className="border-t hover:bg-gray-50 transition">
 
-                  <td className="p-4 font-medium">{admin.name}</td>
+                  {/* 🔥 FIXED NAME DISPLAY */}
+                  <td className="p-4 font-medium text-gray-800">
+                    {admin.name || "No Name"}
+                  </td>
+
                   <td className="text-gray-500">{admin.email}</td>
 
-                  {/* Status with Icon */}
                   <td>
                     <span className={`px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-1 w-fit
                       ${admin.active
@@ -147,12 +179,10 @@ const AdminManagement = () => {
                     </span>
                   </td>
 
-                  {/* Actions */}
                   <td className="text-center flex justify-center gap-2">
 
-                    {/* Activate / Deactivate */}
                     <button
-                      onClick={() => toggleStatus(admin.id)}
+                      onClick={() => toggleStatus(admin._id)}
                       className={`px-3 py-1 rounded text-white text-sm flex items-center gap-1
                       ${admin.active
                         ? "bg-yellow-500 hover:bg-yellow-600"
@@ -163,9 +193,8 @@ const AdminManagement = () => {
                       {admin.active ? "Deactivate" : "Activate"}
                     </button>
 
-                    {/* Delete */}
                     <button
-                      onClick={() => deleteAdmin(admin.id)}
+                      onClick={() => deleteAdmin(admin._id)}
                       className="px-3 py-1 bg-red-500 text-white rounded text-sm flex items-center gap-1 hover:bg-red-600"
                     >
                       <Trash2 size={14} />
