@@ -108,7 +108,7 @@ exports.sendOtp = async (req, res) => {
     await Otp.create({ email, otp });
 
     // 🔥 EMAIL SEND START
-   const transporter = nodemailer.createTransport({
+  const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
   port: 587,
   secure: false,
@@ -119,21 +119,25 @@ exports.sendOtp = async (req, res) => {
     pass: process.env.MAIL_PASS
   },
 
-  connectionTimeout: 30000,
-  greetingTimeout: 30000,
-  socketTimeout: 30000,
-
   tls: {
     rejectUnauthorized: false
-  }
+  },
+
+  connectionTimeout: 60000,
+  greetingTimeout: 60000,
+  socketTimeout: 60000,
+
+  pool: true,
+  maxConnections: 1,
+  maxMessages: 5
 });
 
     await transporter.sendMail({
-      from: process.env.MAIL_USER,
-      to: email,
-      subject: "OTP Verification",
-      text: `Your OTP is ${otp}`,
-    });
+  from: `"CricStream" <${process.env.MAIL_USER}>`,
+  to: email,
+  subject: "OTP Verification",
+  text: `Your OTP is ${otp}`
+});
     // 🔥 EMAIL SEND END
 
     console.log("OTP sent to email:", email);
