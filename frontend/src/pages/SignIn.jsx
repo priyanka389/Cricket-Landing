@@ -33,37 +33,46 @@ const SignIn = () => {
       body: JSON.stringify(formData)
     })
 
-    const data = await res.json()
-    console.log("Login Response:", data)
+    // const data = await res.json()
+     // ✅ SAFE RESPONSE
+    const text = await res.text();
+
+    console.log("RAW RESPONSE:", text);
+
+    let data;
+
+    try {
+      data = JSON.parse(text);
+    } catch (err) {
+      console.log("JSON Parse Error:", err);
+      alert("Backend returned invalid response");
+      return;
+    }
+
+    console.log("Login Response:", data);
 
     if (data.token) {
-      // ✅ token save
-      localStorage.setItem("token", data.token)
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("role", data.role);
 
-      // ✅ role save
-      localStorage.setItem("role", data.role)
+      alert("Login Successful 🎉");
 
-      alert("Login Successful 🎉")
-
-      // ✅ redirect based on role
       if (data.role === "user") {
-        navigate("/user/dashboard")
+        navigate("/user/dashboard");
       } else if (data.role === "admin") {
-        navigate("/admin/dashboard")
+        navigate("/admin/dashboard");
       } else if (data.role === "superadmin") {
-        navigate("/superadmin/dashboard")
+        navigate("/superadmin/dashboard");
       }
-
     } else {
-      alert(data.msg || "Login failed")
+      alert(data.msg || "Login failed");
     }
 
   } catch (err) {
-  console.log("LOGIN ERROR:", err)
-  alert(err.message)
-}
-}
-
+    console.log("LOGIN ERROR:", err);
+    alert(err.message);
+  }
+};
 
 const googleLogin = useGoogleLogin({
   onSuccess: async (tokenResponse) => {
