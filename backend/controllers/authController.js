@@ -109,13 +109,17 @@ exports.sendOtp = async (req, res) => {
 
     // 🔥 EMAIL SEND START
     const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: process.env.MAIL_USER,
-        pass: process.env.MAIL_PASS,
-      },
-    });
-
+  host: "smtp.gmail.com",
+  port: 587,
+  secure: false,
+  auth: {
+    user: process.env.MAIL_USER,
+    pass: process.env.MAIL_PASS,
+  },
+  tls: {
+    rejectUnauthorized: false
+  }
+});
     await transporter.sendMail({
       from: process.env.MAIL_USER,
       to: email,
