@@ -108,18 +108,26 @@ exports.sendOtp = async (req, res) => {
     await Otp.create({ email, otp });
 
     // 🔥 EMAIL SEND START
-    const transporter = nodemailer.createTransport({
+   const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
   port: 587,
   secure: false,
+  requireTLS: true,
+
   auth: {
     user: process.env.MAIL_USER,
-    pass: process.env.MAIL_PASS,
+    pass: process.env.MAIL_PASS
   },
+
+  connectionTimeout: 30000,
+  greetingTimeout: 30000,
+  socketTimeout: 30000,
+
   tls: {
     rejectUnauthorized: false
   }
 });
+
     await transporter.sendMail({
       from: process.env.MAIL_USER,
       to: email,
